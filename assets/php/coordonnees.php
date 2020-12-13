@@ -15,6 +15,7 @@ if ( !$conn ) {
 
 $date_deb = $_GET["datedeb"] ; 
 $date_fin = $_GET["datefin"] ; 
+$centre = $_GET["centre"] ; 
 $result = oci_parse($conn , 'select * from coord' ) ; 
 oci_execute ( $result) ;
 $i = 0 ; 

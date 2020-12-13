@@ -2,32 +2,27 @@
 <?php 
 
 // Create connection
-$conn =  new mysqli('localhost', 'root', '', 'seaal');
+$conn = oci_connect('SEAAL' ,'amal' , 'localhost:1522' ) ; 
 
-$conn -> set_charset("utf8") ; 
 
-// Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
+if ( !$conn ) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR); } 
 
-}
 
-  
   $date_deb = $_GET["datedeb"] ; 
   $date_fin = $_GET["datefin"] ; 
-	$result = $conn->query("select * from taux_preventif ");
-	$centres = array(); 
-	$curatif = array() ; 
-	$preventif = array() ; 
-	$ratio = array(); 
+  $centre = $_GET["centre"] ; 
+  $result = oci_parse($conn , "select * from preventif where centre like'".$centre."%'" ) ; 
+  oci_execute ( $result) ;
 	$i = 0 ; 
 
-	while($row = $result->fetch_assoc()) {
+	while($row = oci_fetch_assoc($result)) {
    
-    $centres[$i] =  $row["centre"] ;
-    $preventif[$i]=  $row["total_heure_preventif"] ; 
-    $curatif[$i]=  $row["total_heure_curatif"] ; 
-    $ratio[$i] = $row["ratio"]  ; 
+    $centres[$i] =  $row["CENTRE"] ;
+    $preventif[$i]=  $row["HEURE_P"] ; 
+    $curatif[$i]=  $row["HEURE_C"] ; 
+    $ratio[$i] = $row["TAUX"]  ; 
     $i++ ; 
   
 }
@@ -35,9 +30,7 @@ if (!$conn) {
   $json = array( "centres" =>$centres,  "preventif" =>$preventif , "curatif" =>  $curatif  , "ratio"=> $ratio );
   echo json_encode($json );
 
-
-
-// close connexion 
-$conn->close();
+  oci_free_statement($result);
+  oci_close($conn);
 
 ?>

@@ -2,39 +2,40 @@
 <?php 
 
 // Create connection
-$conn =  new mysqli('localhost', 'root', '', 'seaal');
 
-$conn -> set_charset("utf8") ; 
-// Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
+$conn = oci_connect('SEAAL' ,'amal' , 'localhost:1522' ) ; 
 
-}
+
+if ( !$conn ) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR); } 
+
+
+
   $date_deb = $_GET["datedeb"] ; 
   $date_fin = $_GET["datefin"] ; 
-	$result = $conn->query("select * from realisation_preventif ");
-	$centres = array(); 
-	$total = array() ; 
-	$realise = array() ; 
-	$pourcentage = array(); 
+  $centre = $_GET["centre"] ;  
+  $result = oci_parse($conn , "select * from realisation where centre like  '".$centre."%'" ) ; 
+
+  oci_execute ( $result) ;
 	$i = 0 ; 
 
-	while($row = $result->fetch_assoc()) {
-   
-    $centres[$i] =  $row["centre"] ;
-    $total[$i]=  $row["total_bt_P"] ; 
-    $realise[$i]=  $row["NB_Bt_REALISE"] ; 
-    $pourcentage[$i] = $row["realisation_preventif"]  ; 
-    $i++ ; 
-  
+  while ($row = oci_fetch_assoc($result)) {
+    $centres[$i] =  $row["CENTRE"] ;
+    $total[$i]=  $row["NB_TOTAL"] ; 
+    $realise[$i]=  $row["NB_REALISE"] ; 
+    $pourcentage[$i] = $row["REALISATION_PREVENTIF"]  ; 
+    $i++ ;
 }
 
-  $json = array( "centres" =>$centres,  "total" =>$total , "realise" =>  $realise , "pourcentage"=> $pourcentage);
+// create the json 
+  $json = array( "centres" =>$centres,  "total" =>$total , "realise" =>  $realise , "pourcentage"=> $pourcentage , "chaine" => "select * from realisation where centre like  '".$centre."%'");
   echo json_encode($json );
 
 
 
 // close connexion 
-$conn->close();
+oci_free_statement($result);
+oci_close($conn);
 
 ?>

@@ -2,28 +2,18 @@
 <html lang="en">
 <head>
     <title>SEAAL UGO</title>
-    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 11]>
-    	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    	<![endif]-->
-    <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="" />
     <meta name="keywords" content="">
     <meta name="author" content="Codedthemes" />
-  
-
     <!-- vendor css -->
     <link rel="stylesheet" href="assets/css/style.css">
     
-    
-
 </head>
 <body class="">
+
 	<!-- [ Pre-loader ] start -->
 	<div class="loader-bg">
 		<div class="loader-track">
@@ -31,6 +21,8 @@
 		</div>
 	</div>
 	<!-- [ Pre-loader ] End -->
+
+
 	<!-- [ navigation menu ] start -->
 	<nav class="pcoded-navbar menupos-fixed menu-light ">
 		<div class="navbar-wrapper  ">
@@ -45,7 +37,6 @@
 					<li class="nav-item">
 					    <a href="index.php" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Acceuil</span></a>
 					</li>
-				
 					<li class="nav-item pcoded-menu-caption">
 						<label>Indicateurs </label>
 					</li>
@@ -54,7 +45,6 @@
 						<ul class="pcoded-submenu">
 							<li><a href="chart-apex-usine.php">Graphes</a></li>
 							<li><a href="#">Tableaux</a></li>
-						
 						</ul>
 					</li>
 					<li class="nav-item pcoded-hasmenu">
@@ -62,7 +52,6 @@
 						<ul class="pcoded-submenu">
 							<li><a href="chart-apex-ugo.php">Graphes</a></li>
 							<li><a href="#">Tableaux</a></li>
-						
 						</ul>
 					</li>
 					<li class="nav-item pcoded-menu-caption">
@@ -72,44 +61,32 @@
 					<li class="nav-item">
 					    <a href="map.php" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Interventions</span></a>
 					</li>
-					
 				</ul>
-			
 			</div>
 		</div>
 	</nav>
 	<!-- [ navigation menu ] end -->
 	<!-- [ Header ] start -->
 	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-blue">
-		
-                    
-                <div class="m-header" style="justify-content: center ;">
-                    <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
-                    <a href="#!" class="b-brand mt-2">
+		  
+        <div class="m-header" style="justify-content: center ;">
+            <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+            <a href="#!" class="b-brand mt-2">
                         <!-- ========   change your logo hear   ============ -->
-                    <h4 style=" color: white !important;">U.G.O </h4>
-                        
-                    </a>
-                    <a href="#!" class="mob-toggler">
-                        <i class="feather icon-more-vertical"></i>
-                    </a>
-                </div>
-				<div class="collapse navbar-collapse">
-					<ul class="navbar-nav mr-auto">
-						
-						<li class="nav-item">
-							<a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a>
-						</li>
-					</ul>
-					
-				</div>
-				
-			
+            <h4 style=" color: white !important;">U.G.O </h4>
+             </a>
+            <a href="#!" class="mob-toggler"><i class="feather icon-more-vertical"></i></a>
+        </div>
+		<div class="collapse navbar-collapse">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a>
+				</li>
+			</ul>
+		</div>
 	</header>
 	<!-- [ Header ] end -->
 	
-	
-
 <!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
     <div class="pcoded-content">
@@ -140,15 +117,25 @@
                     </div>
                     <div class="card-body">
                         <div class="row d-flex mb-2">
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">DE </label>
                                     <input type="date" name="date_deb" class="form-control" placeholder="Date début intervalle" aria-label="" id="realisation_pre_dd" >
                                 </div>
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">A</label>
                                     <input type="date"  name="date_fin" class="form-control" placeholder="Date fin intervalle" aria-label="" id="realisation_pre_df">
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-3 d-flex mb-3">
+                                <label class="m-2 ">Centres</label>
+                                <select class="custom-select" id="centres_realisation">
+
+                                        <option selected value='%'> TOUS</option>
+                                        <option value="DA">DAU</option>
+                                        <option value="DP">DPU</option>
+                                      
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-lg-3">
                                     <button class="btn  btn-outline-info" id="realisation_pre_btn" style="width: 100%;" >Filtrer</button>
                                 </div>
                             </div>
@@ -165,17 +152,27 @@
                     <div class="card-body">
                         
                             <div class="row d-flex mb-2">
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">DE </label>
                                     <input type="date"  name="date_deb" class="form-control " placeholder="Date début intervalle" aria-label="" id="taux_prev_dd" >
                                 </div>
 
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">A</label>
                                     <input type="date"  name="date_fin" class="form-control" placeholder="Date fin intervalle" aria-label="" id="taux_prev_df" >
                                 </div>
-                                <div class="col-lg-2">
-                                    <button class="btn  btn-outline-danger" id="taux_preventif_btn" style="width: 100%;">Filtrer</button>
+                                <div class="col-lg-3 d-flex mb-3">
+                                <label class="m-2 ">Centres</label>
+                                <select class="custom-select" id="tauxprev_centre">
+
+                                        <option selected value='%'> TOUS</option>
+                                        <option value="DA">DAU</option>
+                                        <option value="DP">DPU</option>
+                                      
+                                    </select>
+                                </div>
+                                <div class=" mb-3 col-lg-3">
+                                    <button class="btn  btn-outline-success" id="taux_preventif_btn" style="width: 100%;">Filtrer</button>
                                 </div>
                             </div>
                     
@@ -191,16 +188,26 @@
                     </div>
                     <div class="card-body">
                          <div class="row d-flex mb-2">
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">DE </label>
                                     <input type="date" name="date_deb" class="form-control" placeholder="Date début intervalle" aria-label="" id="dispo_dd"  >
                                 </div>
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">A</label>
                                     <input type="date"  name="date_fin" class="form-control" placeholder="Date fin intervalle" aria-label="" id="dispo_df" >
                                 </div>
-                                <div class="col-lg-2">
-                                    <button class="btn  btn-outline-success"  style="width: 100%;" id="dispo_btn" >Filtrer</button>
+                                <div class="col-lg-3 d-flex mb-3">
+                                <label class="m-2 ">Centres</label>
+                                <select class="custom-select" id="centres_dispo">
+
+                                        <option selected value ='%' >TOUS</option>
+                                        <option value="DA">DAU</option>
+                                        <option value="DP">DPU</option>
+                                      
+                                    </select>
+                                </div>
+                                <div class="mb-3  col-lg-3">
+                                    <button class="btn  btn-outline-warning"  style="width: 100%;" id="dispo_btn" >Filtrer</button>
                                 </div>
                             </div>
                         <div id="dispo"></div>
@@ -215,33 +222,33 @@
                     </div>
                     <div class="card-body">
                          <div class="row d-flex mb-2">
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">DE </label>
                                     <input type="date" name="date_deb" class="form-control" placeholder="Date début intervalle" aria-label="" id="occupation_centre_dd"  >
                                 </div>
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-3 d-flex">
                                     <label class="m-2">A</label>
                                     <input type="date"  name="date_fin" class="form-control" placeholder="Date fin intervalle" aria-label="" id="occupation_centre_df"  >
                                 </div>
-                                <div class="col-lg-2">
-                                    <button class="btn  btn-outline-success"  style="width: 100%;" id="occupation_centre_btn"  >Filtrer</button>
+                                <div class="col-lg-3 d-flex mb-3">
+                                <label class="m-2 ">Centres</label>
+                                <select class="custom-select" id="occupation_centres">
+
+                                        <option selected value='%'> TOUS</option>
+                                        <option value="DA">DAU</option>
+                                        <option value="DP">DPU</option>
+                                      
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-lg-3">
+                                    <button class="btn  btn-outline-danger"  style="width: 100%;" id="occupation_centre_btn"  >Filtrer</button>
                                 </div>
                             </div>
                            <div id="occupation_centre"></div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>test </h5>
-                    </div>
-                    <div class="card-body">
-                           <div id="chart"></div>
-                    </div>
-                </div>
-            </div>
+           
 			
         </div>
     </div>

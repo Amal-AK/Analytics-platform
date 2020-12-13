@@ -2,30 +2,28 @@
 <?php 
 
 // Create connection
-$conn =  new mysqli('localhost', 'root', '', 'seaal');
 
-$conn -> set_charset("utf8") ; 
-// Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
+$conn = oci_connect('SEAAL' ,'amal' , 'localhost:1522' ) ; 
 
-}
+if ( !$conn ) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR); } 
+
 
   $date_deb = $_GET["datedeb"] ; 
   $date_fin = $_GET["datefin"] ; 
-	$result = $conn->query("select * from disponibilité ");
-	$centres = array(); 
-	$curatif = array() ; 
-	$preventif = array() ; 
-	$ratio = array(); 
-	$i = 0 ; 
+  $centre = $_GET["centre"] ; 
 
-	while($row = $result->fetch_assoc()) {
+  $result = oci_parse($conn , "select * from DISPONIBILITE where centre like  '".$centre."%'" ) ; 
+  oci_execute ( $result) ;
+  $i = 0 ; 
+  
+	while($row = oci_fetch_assoc($result)) {
    
-    $c[$i] =  $row["centre"] ;
-    $d[$i]=  $row["disponibilite"] ; 
-    $m[$i]=  $row["maintenabilite"] ; 
-    $f[$i] = $row["fiabilite"]  ; 
+    $c[$i] =  $row["CENTRE"] ;
+    $d[$i]=  $row["DISPO"] ; 
+    $m[$i]=  $row["MAINT"] ; 
+    $f[$i] = $row["FIAB"]  ; 
     $i++ ; 
   
 }
@@ -33,9 +31,8 @@ if (!$conn) {
   $json = array( "centres" =>$c,  "disponibilite" =>$d , "maintenabilite" =>  $m  , "fiabilite"=> $f);
   echo json_encode($json );
 
-
-
-// close connexion 
-$conn->close();
+  oci_free_statement($result);
+  oci_close($conn);
+  
 
 ?>

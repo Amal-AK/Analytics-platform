@@ -7,7 +7,7 @@ var firstday='01' + today.slice(2.10) ;
  var macarte = null;
  var markerClusters; // Servira à stocker les groupes de marqueurs
   
-getdata(firstday , today)  ; 
+getdata(firstday , today , null)  ; 
 
 
    // clic btn charger les points  
@@ -16,8 +16,14 @@ getdata(firstday , today)  ;
    $("#map_btn")[0].onclick = function(){
     var dd=  $("#map_dd").val() ; 
     var df = $("#map_df").val();
+    var centre = $("#centres_map").val()  ; 
     $("#map_dd").removeClass("is-invalid") ;
     $("#map_df").removeClass("is-invalid") ;
+
+    if (centre == 'TOUS') {
+      centre = null ; 
+    }
+
   // vérifications des dates 
 
    if(dd=='') 
@@ -43,7 +49,7 @@ getdata(firstday , today)  ;
       df= df.toLocaleString().slice(0,10).split('-').reverse().join('/')  ;
        $("#map_dd").val('') ; 
        $("#map_df").val('') ; 
-         getdata(dd , df)  ; 
+         getdata(dd , df , centre)  ; 
        }
 
      };
@@ -53,7 +59,7 @@ getdata(firstday , today)  ;
 
      /* fonction qui charge les coordonées de la base de données */
 
-    function getdata(dated , datef) {
+    function getdata(dated , datef , centre) {
     var  locations = [ ] ; 
     var today =  new Date().toLocaleString().slice(0,10).split('-').reverse().join('/') ; 
     var firstday='01' + today.slice(2.10) ; 
@@ -63,8 +69,8 @@ getdata(firstday , today)  ;
         type : 'GET',
         dataType : 'json',
         data : { 'datedeb' : dated, 
-                'datefin': datef , 
-
+                 'datefin': datef , 
+                 'centre': centre ,
     } , 
     success: function(result){
         console.log(result) ; 

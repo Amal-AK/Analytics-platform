@@ -2,39 +2,36 @@
 <?php 
 
 // Create connection
-$conn =  new mysqli('localhost', 'root', '', 'seaal');
 
-$conn -> set_charset("utf8") ; 
-// Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
+$conn = oci_connect('SEAAL' ,'amal' , 'localhost:1522' ) ; 
 
-}
+
+if ( !$conn ) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR); } 
 
   $date_deb = $_GET["datedeb"] ; 
   $date_fin = $_GET["datefin"] ; 
-	$result = $conn->query("select * from taux_occupation_centre ");
-	$centres = array(); 
-	$occupation = array() ; 
-	$astreinte = array() ; 
+  $centre = $_GET['centre'] ; 
+  $result = oci_parse($conn , "select * from occupation where centre like'".$centre."%'" ) ; 
+  oci_execute ( $result) ;
  
 	$i = 0 ; 
 
-	while($row = $result->fetch_assoc()) {
+  while ($row = oci_fetch_assoc($result)) {
    
-    $centres[$i] =  $row["centre"] ;
-    $occupation[$i]=  $row["taux_occupation"] ;
-    $astreinte[$i] = $row["taux_astreinte"]  ; 
+    $centres[$i] =  $row["CENTRE"] ;
+    $occupation[$i]=  $row["OCC"] ;
+    $astreinte[$i] = $row["ASTR"] ;
+    $nb_agent[$i] =  $row["NB_AGENT"] ;
     $i++ ; 
   
 }
 
-  $json = array( "centres" =>$centres,  "occupation" =>$occupation , "astreinte" =>  $astreinte );
+  $json = array( "centres" =>$centres,  "occupation" =>$occupation , "astreinte" =>  $astreinte , "agents"=> $nb_agent );
   echo json_encode($json );
 
-
-
-// close connexion 
-$conn->close();
+oci_free_statement($result) ; 
+oci_close($conn) ; 
 
 ?>

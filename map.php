@@ -146,15 +146,35 @@
                     <div class="card-body">
 
                          <div class="row d-flex mb-2">
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-6 d-flex">
                                     <label class="m-2">DE </label>
                                     <input type="date" name="date_deb" class="form-control" placeholder="Date début intervalle" aria-label="" id="map_dd"  >
                                 </div>
-                                <div class="mb-3 col-lg-5 d-flex">
+                                <div class="mb-3 col-lg-6 d-flex">
                                     <label class="m-2">A</label>
                                     <input type="date"  name="date_fin" class="form-control" placeholder="Date fin intervalle" aria-label="" id="map_df"  >
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-4 d-flex mb-3">
+                                <label class="m-2 ">Centres</label>
+                                <select class="custom-select" id="centres_map">
+
+                                        <option selected>TOUS</option>
+                                        <option value="DA">DAU</option>
+                                        <option value="DP">DPU</option>
+                                      
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 d-flex mb-3">
+                                <label class="m-2 ">BT</label>
+                                <select class="custom-select" id="bt_map">
+
+                                        <option selected value='C'> C</option>
+                                        <option value="¨P">P</option>
+                                     
+                                      
+                                    </select>
+                                </div>
+                                <div class="col-lg-4  mb-3">
                                     <button class="btn  btn-outline-success"  style="width: 100%;" id="map_btn"  >Charger</button>
                                 </div>
                             </div>
