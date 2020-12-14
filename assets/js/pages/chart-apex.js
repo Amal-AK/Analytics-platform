@@ -703,3 +703,10 @@
         error : function(status) {  document.querySelector("#occupation_centre").innerHTML = '' }
       }) ; 
     };
+
+
+
+
+
+
+

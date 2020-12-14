@@ -65,7 +65,7 @@ getdata(firstday , today , null)  ;
     var firstday='01' + today.slice(2.10) ; 
     window.onload = function(){ 
     $.ajax({
-        url: "/web/assets/php/coordonnees.php", 
+        url: "./assets/php/coordonnees.php", 
         type : 'GET',
         dataType : 'json',
         data : { 'datedeb' : dated, 

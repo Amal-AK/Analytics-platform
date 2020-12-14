@@ -14,25 +14,32 @@ if (!$conn) {
 
 // nombre des bt 
 $result = oci_parse($conn , 
-'
+"
 select sum(1) as nb_total , 
        sum(case when btsyn.id_nummotlig = 22 then 1 else 0 end ) as nb_valid , 
        sum(case when btsyn.id_nummotlig = 42 then 1 else 0 end) as nb_annule , 
-       sum(case when  btsyn.id_nummotlig = 32 then 1 else 0 end) as nb_doublons 
+       sum(case when  btsyn.id_nummotlig = 32 then 1 else 0 end) as nb_doublons ,
+       sum(case when to_date(to_char(dt_dem,'dd/mm/yyyy') , 'dd/mm/yyyy') >= to_date ('01/' || extract(month from sysdate) || '/' || extract(year from sysdate) , 'dd/mm/yyyy')  then 1 else 0 end) as nb_total_m , 
+       sum(case when btsyn.id_nummotlig = 22 and (to_date(to_char(dt_dem,'dd/mm/yyyy') , 'dd/mm/yyyy') >= to_date ('01/' || extract(month from sysdate) || '/' || extract(year from sysdate) , 'dd/mm/yyyy') ) then 1 else 0 end ) as nb_valid_m , 
+       sum(case when btsyn.id_nummotlig = 42 and (to_date(to_char(dt_dem,'dd/mm/yyyy') , 'dd/mm/yyyy') >= to_date ('01/' || extract(month from sysdate) || '/' || extract(year from sysdate) , 'dd/mm/yyyy')  )then 1 else 0 end) as nb_annule_m , 
+       sum(case when  btsyn.id_nummotlig = 32 and (to_date(to_char(dt_dem,'dd/mm/yyyy') , 'dd/mm/yyyy') >= to_date ('01/' || extract(month from sysdate) || '/' || extract(year from sysdate) , 'dd/mm/yyyy')  ) then 1 else 0 end) as nb_doublons_m ,
        from mainta_tst.btsyn
        where nu_session = 1 and nu_ord > 0  
-' )  ; 
+")  ; 
 oci_execute ( $result) ; 
 $array = oci_fetch_array($result) ; 
  
 
-    $nb_total =  $array[0] ;
-    $nb_valide =  $array[1] ;
-    $nb_annule=  $array[2] ;
-    $nb_doublons=  $array[3] ;
+    $nb_total = 930547 /*$array[0]*/ ;
+    $nb_valide = 563218 /*$array[1]*/ ;
+    $nb_annule=  236541/*$array[2]*/ ;
+    $nb_doublons=  152364/*$array[3]*/ ;
+    $nb_total_mois = 5203;
+    $nb_valide_mois = 320 ;
+    $nb_annule_mois=  150 ;
+    $nb_doublons_mois= 80 ;
 
 ?>
-
 
 
 <!DOCTYPE html>
@@ -46,8 +53,6 @@ $array = oci_fetch_array($result) ;
     <meta name="description" content="" />
     <meta name="keywords" content="">
     <meta name="author" content="Codedthemes" />
- 
-
     <!-- vendor css -->
     <link rel="stylesheet" href="assets/css/style.css">
     
@@ -105,8 +110,6 @@ $array = oci_fetch_array($result) ;
 					
 				</ul>
                 
-            
-                
             </div>
         </div>
     </nav>
@@ -140,8 +143,6 @@ $array = oci_fetch_array($result) ;
     <!-- [ Header ] end -->
     
     
-
-<!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
     <div class="pcoded-content">
      
@@ -150,7 +151,7 @@ $array = oci_fetch_array($result) ;
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h5 class="m-b-10">Dashboard UGO</h5>
+                            <h5 class="m-b-10">Dashboard UGO </h5>
                         </div>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
@@ -163,13 +164,13 @@ $array = oci_fetch_array($result) ;
    
         <!-- [ Main Content ] start -->
         <div class="row">
-            <!-- order-card start -->
+
             <div class="col-md-6 col-xl-3">
                 <div class="card bg-c-blue order-card">
                     <div class="card-body">
                         <h6 class="text-white">Total BT</h6>
-                        <h2 class="text-right text-white"><i class="feather icon-corner-down-right float-left"></i><span><?php echo $nb_total ?></span></h2>
-                        <p class="m-b-0">Ce mois <span class="float-right">351</span></p>
+                        <h2 class="text-right text-white"><i class="feather icon-corner-down-right float-left mt-2"></i><span><?php echo $nb_total ?></span></h2>
+                        <p class="m-b-0">Ce mois <span class="float-right"><?php echo $nb_total_mois?></span></p>
                     </div>
                 </div>
             </div>
@@ -177,8 +178,8 @@ $array = oci_fetch_array($result) ;
                 <div class="card bg-c-green order-card">
                     <div class="card-body">
                         <h6 class="text-white">Total BT validé </h6>
-                        <h2 class="text-right text-white"><i class="feather icon-check-circle float-left"></i><span><?php echo $nb_valide ?></span></h2>
-                        <p class="m-b-0">Ce mois<span class="float-right">213</span></p>
+                        <h2 class="text-right text-white"><i class="feather icon-check-circle float-left mt-2"></i><span><?php echo $nb_valide ?></span></h2>
+                        <p class="m-b-0">Ce mois<span class="float-right"><?php echo $nb_valide_mois?></span></p>
                     </div>
                 </div>
             </div>
@@ -186,8 +187,8 @@ $array = oci_fetch_array($result) ;
                 <div class="card bg-c-yellow order-card">
                     <div class="card-body">
                         <h6 class="text-white">Total BT doublons </h6>
-                        <h2 class="text-right text-white"><i class="feather icon-repeat float-left"></i><span><?php echo $nb_doublons ?></span></h2>
-                        <p class="m-b-0">Ce mois<span class="float-right">122</span></p>
+                        <h2 class="text-right text-white"><i class="feather icon-repeat float-left mt-2"></i><span><?php echo $nb_doublons ?></span></h2>
+                        <p class="m-b-0">Ce mois<span class="float-right"><?php echo $nb_doublons_mois?></span></p>
                     </div>
                 </div>
             </div>
@@ -195,16 +196,47 @@ $array = oci_fetch_array($result) ;
                 <div class="card bg-c-red order-card">
                     <div class="card-body">
                         <h6 class="text-white">Total BT annulé </h6>
-                        <h2 class="text-right text-white"><i class="feather icon-x-circle float-left"></i><span><?php echo $nb_annule ?></span></h2>
-                        <p class="m-b-0">Ce mois<span class="float-right">42</span></p>
+                        <h2 class="text-right text-white"><i class="feather icon-x-circle float-left mt-2"></i><span><?php echo $nb_annule ?></span></h2>
+                        <p class="m-b-0">Ce mois<span class="float-right"><?php echo $nb_annule_mois?></span></p>
                     </div>
                 </div>
             </div>
         </div>
 
-
-      <DIV Class="row" >
-               
+       <div class="row">
+            <div class="col-md-6 col-xl-6 ">
+                <div class="card bg-info text-white">
+                    <div class="card-body ">
+                        <h5 class="text-white">Ordonnanceurs actifs   </h5>
+                        <h2 class="text-white d-flex justify-content-between "><span style="font-size : 14px" class="mt-3">total</span><span id="ordo_total"></span></h2>
+                        <p class="m-b-0">Le mois courant<span class="float-right" id="nb_ordo">42</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-6 ">
+               <div class="card bg-primary text-white">
+                 <div class="card-body ">
+                        <h5 class="text-white">Diagnostiqueurs actifs</h5>
+                        <h2 class="text-white d-flex justify-content-between "><span style="font-size : 14px" class="mt-3">total</span ><span id="diagnostic_total"></span></h2>
+                        <p class="m-b-0">Le mois courant<span class="float-right" id="nb_diagnostic">42</span></p>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <div class="row">
+         <div class="col-xl-12 col-md-12">
+                <div class="card ">
+                    <div class="card-header">
+                        <h5>Nombre des OT ordonnancés ce mois </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="line-chart-1" style="width:100%"></div>
+                    </div>
+                </div>
+            </div>
+         </div>
+      
+       <DIV Class="row" >
             <div class="col-xl-6 col-md-12">
                 <div class="card ">
                     <div class="card-header">
@@ -243,8 +275,8 @@ $array = oci_fetch_array($result) ;
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="card bg">
-                            <div class="card-body bg-patern-white">
+                        <div class="card  bg-patern-white">
+                            <div class="card-body bg-patern">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <span>Intervenants</span>
@@ -276,7 +308,7 @@ $array = oci_fetch_array($result) ;
         <!-- [ Main Content ] end -->
     </div>
 </div>
-<!-- [ Main Content ] end -->
+
 
     <!-- Required Js -->
     <script src="assets/js/vendor-all.min.js"></script>
